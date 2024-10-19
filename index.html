@@ -1,1 +1,219 @@
-<h1>shaniya</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Loading</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Great+Vibes&display=swap'); /* Fancy fonts */
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background-color: black;
+      color: white;
+    }
+
+    /* Galaxy background with slower moving stars */
+    .galaxy {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Star style */
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: blink 3s infinite ease-in-out, moveStar 60s linear infinite; /* Slower movement */
+      opacity: 0.6; /* Slightly more visible */
+    }
+
+    /* Blinking effect when stars are hovered */
+    .star:hover {
+      animation: blink 0.5s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Slower star movement */
+    @keyframes moveStar {
+      0% {
+        transform: translateX(0) translateY(0);
+      }
+      100% {
+        transform: translateX(200vw) translateY(200vh);
+      }
+    }
+
+    .loading-container {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .loading-percentage {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Portfolio text with sparkling white effect */
+    .portfolio {
+      position: relative;
+      font-size: 140px;
+      font-weight: bold;
+      line-height: 1;
+      background: linear-gradient(90deg, #ffffff, #dcdcdc);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: sparkleWhite 2s infinite;
+      z-index: 1; /* Ensure it stays above other elements */
+    }
+
+    @keyframes sparkleWhite {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .loading-bar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #00bfff; /* Blue loading bar */
+      transition: width 0.5s;
+      z-index: 0; /* Behind the portfolio text */
+    }
+
+    .loading-bar span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px; /* Adjust font size inside loading bar */
+      font-weight: bold;
+      color: white; /* Color for text inside loading bar */
+      z-index: 1; /* Above loading bar */
+    }
+
+    /* Welcome text with unique fancy font and sparkling blue color */
+    .welcome-text {
+      margin-top: 80px; /* Increased space between the texts */
+      font-size: 30px;
+      font-family: 'Great Vibes', cursive;
+      background: linear-gradient(90deg, #00bfff, #1e90ff, #87cefa);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: sparkleBlue 2s infinite;
+      z-index: 1; /* Ensure it stays above other elements */
+    }
+
+    @keyframes sparkleBlue {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    /* Circular photo with larger size */
+    .profile-photo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 200px; /* Even bigger photo */
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Galaxy with moving stars -->
+  <div class="galaxy" id="galaxy"></div>
+
+  <div class="loading-container">
+    <div class="loading-percentage" id="percentage">0%</div>
+    <div class="portfolio" id="portfolio">
+      <div class="loading-bar" id="loadingBar">
+        <span>PORTFOLIO</span> <!-- Portfolio text inside the loading bar -->
+      </div>
+    </div>
+    <div class="welcome-text">Welcome to Shaniya's World</div>
+  </div>
+
+  <!-- Profile photo in the top-right corner -->
+  <div class="profile-photo">
+    <img src="https://example.com/your-photo.jpg" alt="Shaniya's Photo">
+  </div>
+
+  <script>
+    let loadingBar = document.getElementById("loadingBar");
+    let percentageDisplay = document.getElementById("percentage");
+    let percentage = 0;
+
+    function loadPortfolio() {
+      percentage++;
+      loadingBar.style.width = percentage + "%";
+      percentageDisplay.textContent = percentage + "%";
+
+      if (percentage < 100) {
+        setTimeout(loadPortfolio, 50); // Speed of loading
+      }
+    }
+
+    window.onload = loadPortfolio;
+
+    // Generate moving stars
+    const galaxy = document.getElementById('galaxy');
+
+    function createStar() {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.width = `${Math.random() * 3 + 1}px`; /* Smaller stars */
+      star.style.height = star.style.width;
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.left = `${Math.random() * 100}vw`;
+      galaxy.appendChild(star);
+
+      // Remove stars after they move out of the view
+      setTimeout(() => {
+        star.remove();
+      }, 60000); // Matches the duration of the moveStar animation
+    }
+
+    // Create stars continuously
+    setInterval(createStar, 100); // Increase frequency for more stars
+  </script>
+
+</body>
+</html>
+
